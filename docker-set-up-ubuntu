@@ -1,0 +1,26 @@
+---
+- name: docker set up
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Update apt package list
+      apt:
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Display Docker version
+      command: docker --version
+      register: docker_version
+
+    
