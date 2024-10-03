@@ -1,0 +1,25 @@
+---
+- name: Install and Start Nginx
+  hosts: servers  
+  become: true  
+
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes  # Update the package index
+
+    - name: Start Nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes  # Ensure Nginx starts on boot
+
+    - name: Copy index.html to Nginx directory
+      copy:
+        src: /path/to/your/index.html  
+        dest: /var/www/html/index.html 
+        owner: www-data  # Set ownership to the Nginx user
+        group: www-data  # Set group to the Nginx group
+        mode: '0644'  # Set permissions for the file
